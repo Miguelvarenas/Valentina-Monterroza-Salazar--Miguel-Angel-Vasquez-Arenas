@@ -76,7 +76,7 @@ class ProcesadorSIATA:
         print(self.df[[col1, col2, 'suma_columnas']].head())
 
 class ProcesadorControl_Parqui:
-    def __init__(self, control={"C001R_EP_reposo", "C002_EP_reposo", "C003_EP_reposo", "C004_EP_reposo", "C005_EP_reposo_Repetido", "C006_EP_reposo"}, parkinson={"P004_EP_reposo", "P005_EP_reposo", "P006_EP_reposo", "P007_EP_reposo", "P012_EP_reposo_Repetido"}):
+    def __init__(self, control ,parkinson):
         self.ruta = control,parkinson
         self.data_dict = sio.loadmat(control,parkinson)
         self.fs = 1000

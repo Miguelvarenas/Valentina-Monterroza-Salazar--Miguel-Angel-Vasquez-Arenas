@@ -173,14 +173,9 @@ def main():
                 print("Primero cargue los archivos CSV.")
 
         elif opcion == 3:
-            ruta = input("Ingrese ruta archivo .mat: ")
+            ruta = input("Ingrese ruta archivo: ")
             try:
-                mat_actual = ProcesadorControl_Parqui("C001R_EP_reposo", 
-                                                      "C002_EP_reposo",
-                                                      "C003_EP_reposo",
-                                                      "C004_EP_reposo",
-                                                      "C005_EP_reposo_Repetido,"
-                                                      "C006_EP_reposo")
+                mat_actual = ProcesadorControl_Parqui(control=ruta, parkinson=ruta)
                                                         
                 gestor.guardar("archivo_mat", mat_actual)
                 print("Archivo MAT cargado correctamente.")
