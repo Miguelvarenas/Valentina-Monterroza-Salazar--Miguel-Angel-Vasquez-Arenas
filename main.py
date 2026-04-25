@@ -175,7 +175,7 @@ def main():
         elif opcion == 3:
             ruta = input("Ingrese ruta archivo: ")
             try:
-                mat_actual = ProcesadorControl_Parqui(control=ruta, parkinson=ruta)
+                mat_actual = ProcesadorControl_Parqui(Control=ruta, parki=ruta)
                                                         
                 gestor.guardar("archivo_mat", mat_actual)
                 print("Archivo MAT cargado correctamente.")

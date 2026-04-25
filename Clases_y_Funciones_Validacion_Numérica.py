@@ -76,9 +76,15 @@ class ProcesadorSIATA:
         print(self.df[[col1, col2, 'suma_columnas']].head())
 
 class ProcesadorControl_Parqui:
-    def __init__(self, control={"C001R_EP_reposo", "C002_EP_reposo", "C003_EP_reposo", "C004_EP_reposo", "C005_EP_reposo_Repetido", "C006_EP_reposo"}, parkinson={"P004_EP_reposo", "P005_EP_reposo", "P006_EP_reposo", "P007_EP_reposo", "P012_EP_reposo_Repetido"}):
-        self.ruta = control,parkinson
-        self.data_dict = sio.loadmat(control,parkinson)
+    def __init__(self, control=None, parkinson=None):
+        self.control_path = control
+        self.parkinson_path = parkinson
+        self.data_dict = {}
+        # CORRECCIÓN: Usar los nombres de variables correctos
+        if self.control_path:
+            self.data_dict.update(sio.loadmat(self.Control))
+        if self.parkinson_path:
+            self.data_dict.update(sio.loadmat(self.parki))
         self.fs = 1000
 
     def mostrar_llaves(self):
