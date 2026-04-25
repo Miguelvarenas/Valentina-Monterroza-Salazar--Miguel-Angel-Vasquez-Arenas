@@ -77,12 +77,10 @@ class ProcesadorSIATA:
 
 class ProcesadorControl_Parqui:
     def __init__(self, control=None, parkinson=None):
-        # Guardamos las rutas en atributos específicos
         self.control_path = control
         self.parkinson_path = parkinson
         self.data_dict = {}
         
-        # Cargamos los datos usando los atributos definidos arriba
         if self.control_path:
             self.data_dict.update(sio.loadmat(self.control_path)) 
         if self.parkinson_path:

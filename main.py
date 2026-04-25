@@ -148,6 +148,9 @@ def main():
     csv_actual = None
     mat_actual = None
 
+    c_cont = 1
+    p_cont = 1
+
     while True:
         menu_Principal()
         opcion = validar_entero("Seleccione opción: ")
@@ -171,20 +174,34 @@ def main():
                 trabajo_csv(csv_actual)
             else:
                 print("Primero cargue los archivos CSV.")
-
+    
         elif opcion == 3:
             ruta = input("Ingrese ruta archivo: ")
-            # Asegúrate de incluir la extensión .mat si no la escribes al teclado
             if not ruta.endswith('.mat'):
                 ruta += '.mat'
+                
             try:
-                # Instanciación correcta usando los parámetros definidos en la clase
-                mat_actual = ProcesadorControl_Parqui(control=ruta, parkinson=ruta)
-                gestor.guardar("archivo_mat", mat_actual)
-                print(f"Archivo {ruta} cargado correctamente.")
+                # Lógica para nombrar según la carpeta o nombre ingresado
+                if "control" in ruta.lower():
+                    nombre_sistema = f"Control {c_cont}"
+                    mat_actual = ProcesadorControl_Parqui(control=ruta)
+                    c_cont += 1 
+                elif "parkinson" in ruta.lower():
+                    nombre_sistema = f"Parkinson {p_cont}"
+                    mat_actual = ProcesadorControl_Parqui(parkinson=ruta)
+                    p_cont += 1 
+                else:
+                    nombre_sistema = "archivo_mat"
+                    mat_actual = ProcesadorControl_Parqui(control=ruta, parkinson=ruta)
+
+                gestor.guardar(nombre_sistema, mat_actual)
+                
+                print(f"\n Archivo {ruta} cargado correctamente.")
+                print(f" Guardado como: '{nombre_sistema}'")
+
             except Exception as e:
                 print("Error de carga:", e)
-
+            
         elif opcion == 4:
             if mat_actual:
                 trabajo_mat(mat_actual)
