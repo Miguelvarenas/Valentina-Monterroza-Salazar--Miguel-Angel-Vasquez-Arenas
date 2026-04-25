@@ -10,6 +10,6 @@ import scipy.io as sio
 import numpy as np
 
 class Procesador_SIATA():
-    def __init__(self, ruta_archivo):
-        self.df = pd.read_csv(ruta_archivo)
+    def __init__(self, ):
+        self.df = pd.read_csv()
         self.preprocesar_fechas()
