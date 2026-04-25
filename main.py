@@ -6,9 +6,9 @@
 
 from Clases_y_Funciones_Validacion_Numérica import (
     ProcesadorSIATA,
-    ProcesadorControl,
+    ProcesadorControl_Parqui,
     GestorObjetos
-                                                   )
+)
 
 def validar_entero(msg):
     while True:
@@ -17,14 +17,12 @@ def validar_entero(msg):
         except:
             print("Ingrese un número entero válido.")
 
-
 def validar_float(msg):
     while True:
         try:
             return float(input(msg))
         except:
             print("Ingrese un número válido.")
-
 
 def menu_Principal():
     print("\n--------------------------------------")
@@ -37,7 +35,6 @@ def menu_Principal():
     print("5. Buscar objeto guardado")
     print("0. Salir")
 
-
 def menu_csv():
     print("\n--------------- MENÚ CSV ---------------")
     print("1. Mostrar info() y describe()")
@@ -46,7 +43,6 @@ def menu_csv():
     print("4. Remuestreo")
     print("0. Volver")
 
-
 def menu_mat():
     print("\n--------------- MENÚ EEG ---------------")
     print("1. Mostrar llaves")
@@ -54,12 +50,8 @@ def menu_mat():
     print("3. Promedio y desviación estándar")
     print("0. Volver")
 
-
-
 def trabajo_csv(obj):
-
     while True:
-
         menu_csv()
         op = validar_entero("Seleccione opción: ")
 
@@ -68,36 +60,52 @@ def trabajo_csv(obj):
 
         elif op == 2:
             print("\nColumnas disponibles:")
-            print(obj.df.columns.tolist())
+            cols = obj.df.columns.tolist()
+            print(cols)
 
-            col = input("Ingrese columna numérica: ")
-            obj.graficar_analisis(col)
+            while True:
+                col = input("Ingrese columna numérica: ")
+                if col in cols:
+                    obj.graficar_analisis(col)
+                    break
+                else:
+                    print(f"La columna '{col}' no existe. Intente de nuevo.")
 
         elif op == 3:
-            print(obj.df.columns.tolist())
+            cols = obj.df.columns.tolist()
+            print(cols)
 
-            ch1 = input("Primera columna: ")
-            c2 = input("Segunda columna: ")
+            while True:
+                ch1 = input("Primera columna: ")
+                if ch1 in cols: break
+                print(f"La columna '{ch1}' no existe.")
+            
+            while True:
+                c2 = input("Segunda columna: ")
+                if c2 in cols: break
+                print(f"La columna '{c2}' no existe.")
 
             obj.operaciones(ch1, c2)
 
         elif op == 4:
-            print(obj.df.columns.tolist())
+            cols = obj.df.columns.tolist()
+            print(cols)
 
-            col = input("Columna numérica: ")
-            obj.graficar_remuestreo(col)
+            while True:
+                col = input("Columna numérica: ")
+                if col in cols:
+                    obj.graficar_remuestreo(col)
+                    break
+                else:
+                    print(f"La columna '{col}' no existe.")
 
         elif op == 0:
             break
-
         else:
             print("Opción inválida")
 
-
 def trabajo_mat(obj):
-
     while True:
-
         menu_mat()
         op = validar_entero("Seleccione opción: ")
 
@@ -105,8 +113,12 @@ def trabajo_mat(obj):
             obj.mostrar_llaves()
 
         elif op == 2:
-
-            key = input("Nombre llave matriz: ")
+            while True:
+                key = input("Nombre llave matriz: ")
+                if key in obj.data_dict: 
+                    break
+                else:
+                    print(f"La llave '{key}' no existe en el archivo.")
 
             ch1 = validar_entero("Canal 1: ")
             ch2 = validar_entero("Canal 2: ")
@@ -118,32 +130,29 @@ def trabajo_mat(obj):
             obj.suma_Canales2d(key, [ch1, ch2, ch3], tm1, tm2)
 
         elif op == 3:
-
-            key = input("Nombre llave matriz: ")
-            obj.estadisticas_3d(key)
+            while True:
+                key = input("Nombre llave matriz: ")
+                if key in obj.data_dict:
+                    obj.estadisticas_3d(key)
+                    break
+                else:
+                    print(f"La llave '{key}' no existe.")
 
         elif op == 0:
             break
-
         else:
             print("Opción inválida")
 
-
 def main():
-
     gestor = GestorObjetos()
-
     csv_actual = None
     mat_actual = None
 
     while True:
-
         menu_Principal()
-
         opcion = validar_entero("Seleccione opción: ")
 
         if opcion == 1:
-
             try:
                 csv_actual = ProcesadorSIATA(
                     "CalAir_VA_2019.csv",
@@ -152,61 +161,51 @@ def main():
                     "CalAir_VA_2022.csv",
                     "CalAir_VA_2023.csv"
                 )
-
                 gestor.guardar("csv_siata", csv_actual)
-
                 print("Archivos CSV cargados correctamente.")
-
             except Exception as e:
                 print("Error:", e)
 
         elif opcion == 2:
-
             if csv_actual:
                 trabajo_csv(csv_actual)
             else:
                 print("Primero cargue los archivos CSV.")
 
         elif opcion == 3:
-
             ruta = input("Ingrese ruta archivo .mat: ")
-
             try:
-                mat_actual = ProcesadorControl(ruta, ruta)
-
+                mat_actual = ProcesadorControl_Parqui("C001R_EP_reposo", 
+                                                      "C002_EP_reposo",
+                                                      "C003_EP_reposo",
+                                                      "C004_EP_reposo",
+                                                      "C005_EP_reposo_Repetido,"
+                                                      "C006_EP_reposo")
+                                                        
                 gestor.guardar("archivo_mat", mat_actual)
-
                 print("Archivo MAT cargado correctamente.")
-
             except Exception as e:
                 print("Error:", e)
 
         elif opcion == 4:
-
             if mat_actual:
                 trabajo_mat(mat_actual)
             else:
                 print("Primero cargue archivo MAT.")
 
         elif opcion == 5:
-
             nombre = input("Nombre objeto guardado: ")
-
             encontrado = gestor.buscar(nombre)
-
             if encontrado:
                 print("Objeto encontrado.")
             else:
                 print("No existe.")
 
         elif opcion == 0:
-
             print("Programa finalizado.")
             break
-
         else:
             print("Opción inválida")
-
 
 if __name__ == "__main__":
     main()

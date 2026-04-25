@@ -75,8 +75,8 @@ class ProcesadorSIATA:
         print(f"Nuevas columnas creadas: {col1}_norm, {col2}_nivel, suma_columnas")
         print(self.df[[col1, col2, 'suma_columnas']].head())
 
-class ProcesadorControl:
-    def __init__(self,control,parkinson):
+class ProcesadorControl_Parqui:
+    def __init__(self, control={"C001R_EP_reposo", "C002_EP_reposo","C003_EP_reposo","C004_EP_reposo","C005_EP_reposo_Repetido","C006_EP_reposo"} ,parkinson={"P004_reposo","P005_reposo","P006_reposo","P007_reposo","P012_reposo"}):
         self.ruta = control,parkinson
         self.data_dict = sio.loadmat(control,parkinson)
         self.fs = 1000
