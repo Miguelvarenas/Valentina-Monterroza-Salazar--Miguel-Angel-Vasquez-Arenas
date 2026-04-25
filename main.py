@@ -175,11 +175,13 @@ def main():
         elif opcion == 3:
             ruta = input("Ingrese ruta archivo: ")
             try:
-                mat_actual = ProcesadorControl_Parqui(Control=ruta, parki=ruta)
+                # Los nombres aquí deben ser 'control' y 'parkinson' (en minúsculas)
+                mat_actual = ProcesadorControl_Parqui(control=ruta, parkinson=ruta)
                                                         
                 gestor.guardar("archivo_mat", mat_actual)
                 print("Archivo MAT cargado correctamente.")
             except Exception as e:
+                # Esto te imprimirá el error real si algo más falla (como no encontrar el archivo)
                 print("Error:", e)
 
         elif opcion == 4:
