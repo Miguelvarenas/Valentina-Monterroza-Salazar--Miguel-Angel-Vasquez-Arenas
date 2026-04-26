@@ -68,7 +68,7 @@ class ProcesadorSIATA:
         self.df[f'{col1}_norm'] = self.df[col1].map(lambda x: x / max_val if max_val != 0 else 0)
         
         umbral = self.df[col2].mean()
-        self.df[f'{col2}_nivel'] = self.df[col2].apply(lambda x: 'Alto' if x > umbral else 'Bajo')
+        self.df[f'{col2}_nivel'] = self.df[col2].apply(lambda x: 1 if x > umbral else 0)
         
         self.df['suma_columnas'] = self.df[col1] + self.df[col2]
         
