@@ -181,7 +181,6 @@ def main():
                 ruta += '.mat'
                 
             try:
-                # Lógica para nombrar según la carpeta o nombre ingresado
                 if "control" in ruta.lower():
                     nombre_sistema = f"Control {c_cont}"
                     mat_actual = ProcesadorControl_Parqui(control=ruta)
